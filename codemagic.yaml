@@ -4,18 +4,13 @@ workflows:
     max_build_duration: 60
     instance_type: mac_mini_m1
     environment:
+      java: 17
       groups:
         - android-signing
     scripts:
       - name: Build Android APK
         script: |
-          mkdir temp_gradle && cd temp_gradle
-          gradle wrapper --gradle-version 9.3.1
-          cd ..
-          cp temp_gradle/gradlew .
-          cp -r temp_gradle/gradle .
-          rm -rf temp_gradle
-          chmod +x gradlew
-          ./gradlew assembleDebug
+          cd app
+          gradle assembleDebug
     artifacts:
       - app/build/outputs/apk/debug/*.apk
