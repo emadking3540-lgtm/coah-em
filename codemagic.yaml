@@ -9,6 +9,13 @@ workflows:
     scripts:
       - name: Build Android APK
         script: |
-          gradle assembleDebug
+          mkdir temp_gradle && cd temp_gradle
+          gradle wrapper --gradle-version 9.3.1
+          cd ..
+          cp temp_gradle/gradlew .
+          cp -r temp_gradle/gradle .
+          rm -rf temp_gradle
+          chmod +x gradlew
+          ./gradlew assembleDebug
     artifacts:
       - app/build/outputs/apk/debug/*.apk
