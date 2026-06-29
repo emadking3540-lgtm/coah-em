@@ -9,6 +9,7 @@ workflows:
     scripts:
       - name: Build Android APK
         script: |
+          cd app
           flutter build apk --debug
     artifacts:
-      - build/app/outputs/flutter-apk/*.apk
+      - app/build/app/outputs/flutter-apk/*.apk
