@@ -10,9 +10,15 @@ workflows:
     scripts:
       - name: Build Android APK
         script: |
+          # 1. توليد ملف keystore افتراضي لحل مشكلة التوقيع
+          keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          
+          # 2. تحميل إصدار Gradle المطلوب
           wget https://services.gradle.org/distributions/gradle-9.3.1-bin.zip -P /tmp
           unzip -d /tmp/gradle /tmp/gradle-9.3.1-bin.zip
           export PATH=/tmp/gradle/gradle-9.3.1/bin:$PATH
+          
+          # 3. بناء التطبيق
           cd app
           gradle assembleDebug
     artifacts:
