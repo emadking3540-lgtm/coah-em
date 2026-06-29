@@ -8,6 +8,8 @@ workflows:
         - android-signing
     scripts:
       - name: Build Android APK
-        script: cd app && flutter build apk --debug
+        script: |
+          chmod +x gradlew || true
+          ./gradlew assembleDebug
     artifacts:
-      - app/build/app/outputs/flutter-apk/*.apk
+      - app/build/outputs/apk/debug/*.apk
