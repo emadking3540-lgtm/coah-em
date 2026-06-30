@@ -187,21 +187,21 @@ fun GoogleAccountChooserDialog(
                 modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                // Coach
+                // المدرب الرئيسي (الكابتن عماد العبيدي)
                 AccountRowItem(
                     email = "emadking3540@gmail.com",
                     name = "الكابتن عماد العبيدي (المدرب الرئيسي)",
                     isCoach = true,
                     onClick = { onAccountSelected("emadking3540@gmail.com") }
                 )
-                // Trainee 1
+                // اللاعب الأول
                 AccountRowItem(
                     email = "ahmed@gymzone.com",
                     name = "أحمد حسن (لاعب - تضخيم)",
                     isCoach = false,
                     onClick = { onAccountSelected("ahmed@gymzone.com") }
                 )
-                // Trainee 2
+                // اللاعب الثاني
                 AccountRowItem(
                     email = "mohamed@gymzone.com",
                     name = "محمد سعيد (لاعب - تنشيف)",
@@ -211,7 +211,7 @@ fun GoogleAccountChooserDialog(
                 
                 Divider(color = Color.Gray.copy(alpha = 0.3f))
                 
-                // Custom email
+                // زر لتسجيل إيميل مخصص يدويًا
                 OutlinedButton(
                     onClick = onCustomAccount,
                     modifier = Modifier.fillMaxWidth().height(48.dp),
@@ -224,107 +224,6 @@ fun GoogleAccountChooserDialog(
             }
         },
         confirmButton = {},
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("إلغاء", color = Color.Gray)
-            }
-        },
-        containerColor = Color(0xFF1E1E1E),
-        shape = RoundedCornerShape(20.dp)
-    )
-}
-
-@Composable
-fun AccountRowItem(
-    email: String,
-    name: String,
-    isCoach: Boolean,
-    onClick: () -> Unit
-) {
-    Card(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF2C2C2C)),
-        shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp, if (isCoach) SportAccentLime.copy(alpha = 0.4f) else Color.Transparent)
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Icon(
-                imageVector = if (isCoach) Icons.Default.SupervisorAccount else Icons.Default.Person,
-                contentDescription = null,
-                tint = if (isCoach) SportAccentLime else Color.White,
-                modifier = Modifier.size(24.dp)
-            )
-            Column(
-                horizontalAlignment = Alignment.End,
-                modifier = Modifier.weight(1f).padding(end = 12.dp)
-            ) {
-                Text(text = name, fontSize = 12.sp, color = Color.White, fontWeight = FontWeight.Bold)
-                Text(text = email, fontSize = 10.sp, color = Color.Gray)
-            }
-        }
-    }
-}
-
-@Composable
-fun CustomAccountInputDialog(
-    onDismiss: () -> Unit,
-    onEmailEntered: (String) -> Unit
-) {
-    var emailInput by remember { mutableStateOf("") }
-    var errorText by remember { mutableStateOf("") }
-    
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = {
-            Text(
-                text = "سجل دخولك ببريد Google الخاص بك",
-                fontWeight = FontWeight.Bold,
-                fontSize = 15.sp,
-                color = Color.White,
-                textAlign = TextAlign.End,
-                modifier = Modifier.fillMaxWidth()
-            )
-        },
-        text = {
-            Column(modifier = Modifier.fillMaxWidth()) {
-                OutlinedTextField(
-                    value = emailInput,
-                    onValueChange = { emailInput = it },
-                    label = { Text("البريد الإلكتروني (Google Account)") },
-                    singleLine = true,
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = SportAccentCyan,
-                        unfocusedBorderColor = Color.Gray
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp)
-                )
-                if (errorText.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = errorText, color = Color.Red, fontSize = 11.sp)
-                }
-            }
-        },
-        confirmButton = {
-            Button(
-                onClick = {
-                    if (emailInput.contains("@") && emailInput.contains(".")) {
-                        onEmailEntered(emailInput.trim())
-                    } else {
-                        errorText = "يرجى إدخال بريد إلكتروني صحيح"
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = SportAccentCyan, contentColor = Color.Black),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Text("متابعة", fontWeight = FontWeight.Bold)
-            }
-        },
         dismissButton = {
             TextButton(onClick = onDismiss) {
                 Text("إلغاء", color = Color.Gray)
