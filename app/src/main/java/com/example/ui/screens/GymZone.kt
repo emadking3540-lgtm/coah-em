@@ -59,21 +59,16 @@ sealed class Screen {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GymZoneApp(viewModel: MainViewModel) {
-    // Basic Local Navigation Router state
-    var currentScreen by remember { mutableStateOf<Screen>(Screen.Login) }
-
-    val hostUser by viewModel.currentUser.collectAsStateWithLifecycle()
-    val trainees by viewModel.trainees.collectAsStateWithLifecycle()
-    val selectedTrainee by viewModel.selectedTrainee.collectAsStateWithLifecycle()
-
-    val workouts by viewModel.selectedTraineeWorkouts.collectAsStateWithLifecycle()
-    val meals by viewModel.selectedTraineeMeals.collectAsStateWithLifecycle()
-    val messages by viewModel.chatMessages.collectAsStateWithLifecycle()
-    val metrics by viewModel.progressMetrics.collectAsStateWithLifecycle()
-    val supplements by viewModel.selectedTraineeSupplements.collectAsStateWithLifecycle()
-    val vitamins by viewModel.selectedTraineeVitamins.collectAsStateWithLifecycle()
-
+fun maskEmail(email: String): String {
+    val parts = email.split("@")
+    if (parts.size != 2) return email
+    val local = parts[0]
+    val domain = parts[1]
+    if (local.length <= 3) {
+        return "${local.take(1)}***@$domain"
+    }
+    return "${local.take(2)}***${local.takeLast(1)}@$domain"
+}
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.img_main_background),
